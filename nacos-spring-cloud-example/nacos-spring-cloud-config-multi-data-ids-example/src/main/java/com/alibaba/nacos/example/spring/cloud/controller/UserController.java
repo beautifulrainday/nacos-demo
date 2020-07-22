@@ -3,6 +3,7 @@ package com.alibaba.nacos.example.spring.cloud.controller;
 import com.alibaba.nacos.example.spring.cloud.model.User;
 import com.alibaba.nacos.example.spring.cloud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,8 @@ public class UserController {
 
     @Autowired
     public UserController(UserService userService) {this.userService = userService;}
+    @Value("${spring.datasource.url}")
+    private String url;
 
     /**
      * http://localhost:8080/user?id=1
@@ -25,6 +28,11 @@ public class UserController {
     @ResponseBody
     public User get(@RequestParam long id) {
         return userService.findById(id);
+    }
+
+    @GetMapping(value = "getDataConfig")
+    public String getDataConfig (){
+        return url;
     }
 
 }

@@ -24,22 +24,26 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private final RedisTemplate redisTemplate;
+//    private final RedisTemplate redisTemplate;
 
     @Value("${app.user.cache}")
     private boolean cache;
 
-    @Autowired
+    /*@Autowired
     public UserServiceImpl(UserRepository userRepository, RedisTemplate redisTemplate) {
         this.userRepository = userRepository;
         this.redisTemplate = redisTemplate;
+    }*/
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public User findById(Long id) {
         LOGGER.info("cache: {}", cache);
 
-        if (cache) {
+        /*if (cache) {
             Object obj = redisTemplate.opsForValue().get(key(id));
             if (obj != null) {
                 LOGGER.info("get user from cache, id: {}", id);
@@ -53,9 +57,9 @@ public class UserServiceImpl implements UserService {
                 LOGGER.info("set cache for user, id: {}", id);
                 redisTemplate.opsForValue().set(key(id), user);
             }
-        }
+        }*/
 
-        return user;
+        return new User();
     }
 
     private String key(Long id) {
